@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+#result {
+    margin-bottom: 20px; /* Add some bottom margin for spacing */
+    justify-content: space-between; /* Arrange items with space between them */
+    margin-left: 100px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px; /* Adjust height as needed */
+    background-color: #ffffff; /* Background color of the progress bar */
+    border-radius: 5px; /* Rounded corners */
+}
+
+#prediction-container {
+    border: 2px solid #8b23e0; /* Add border */
+    padding: 10px; /* Add padding for content */
+    display:flex;
+    text-align:center;
+    align-items:center;
+    width: 60%;
+    margin-left:160px;
+}
+
+#prediction-class{
+  display:flex;
+  margin-left: 50px;
+  color: #ffffff; 
+  font-family: 'Raleway',sans-serif; 
+  font-size: 40px; 
+  font-weight: 600; 
+  line-height: 72px; 
+  text-align: center; 
+  text-transform: uppercase; 
+}
+
+#prediction-result {
+    margin-bottom: 10px; /* Add bottom margin for spacing between prediction text and image */
+    margin-left: 50px;
+}
+
+#refresh-button {
+    background-color: #8A2BE2; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px; /* Add top margin */
+    cursor: pointer;
+    margin-left: 350px;
+}
+
+.hidden {
+    visibility: hidden;
+}
+</style>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>DeepTech</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- bootstrap core css -->
+  <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" />
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
+</head>
+
+<body class="sub_page">
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index">
+            <span>
+              DeepTech
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                <li class="nav-item">
+                  <a class="nav-link" href="index">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="detector"> DeepFake Detectors </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="faq">FAQ</a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" href="about"> About Us </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact"> Contact Us</a>
+                </li>
+                <li class="custom-nav-item">
+                  {% if user_logged_in %}
+                  <div class="custom-nav-item dropdown">
+                      <a class="custom-nav-link dropdown-toggle" href="#" id="customNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {{ user_name }}
+                      </a>
+                      <div class="custom-dropdown-menu" aria-labelledby="customNavbarDropdown">
+                          <a class="custom-dropdown-item" href="history">Detection History</a>
+                          <a class="custom-dropdown-item" href="logout">Sign Out</a>
+                      </div>
+                  </div>
+                  {% else %}
+                  <a class="custom-nav-link" href="login">
+                      <i class="custom-sign-in-icon" aria-hidden="true"></i>Sign In</a>
+                  {% endif %}
+              </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+
+  <!-- trainer section -->
+
+  <section class="deepfake_section layout_padding">
+    <div class="container">
+        <div class="heading_video" style="border-bottom: none;">
+            <h2>
+                Upload Your DeepFake Image
+            </h2>
+        </div>
+        <form class="upload-form" id="upload-form" action="/detectImage" method="post" enctype="multipart/form-data">
+            <input type="file" id="input_image" name="input_image" accept="image/*" required onchange="handleFileUpload()">
+            <p id="upload-message">Drag your files here or click in this area.</p>
+            <button id="clear-file-btn" class="clear-button" type="button" style="display: none;">Clear</button>
+            <button class="upload-button" type="submit">Upload</button>
+        </form>
+        <div id="result" class="hidden">
+          <div id="prediction-container">
+              <img id="result-image" src="" alt="Result Image">
+              <div id="prediction" class="hidden">
+                <h2 id="heading_prediction">Prediction:</h2>
+                <div id="prediction-result">
+                    <b>Real Confidence:</b> <span id="real-confidence"></span>%<br>
+                    <div class="progress-bar">
+                        <div class="progress" id="real-progress"></div>
+                    </div>
+                    <b>Fake Confidence:</b> <span id="fake-confidence"></span>%<br>
+                    <div class="progress-bar">
+                        <div class="progress" id="fake-progress"></div>
+                    </div>
+                    <b>Prediction Result:</b> <span id="prediction-class"></span>
+                </div>
+            </div>
+          </div>
+          <div id = "button-container">
+            <button class="hidden "id="refresh-button">Detect DeepFake again</button>
+          </div>
+      </div>
+    </div>
+</section>
+  <!-- end trainer section -->
+
+  <!-- info section -->
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="info_items">
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-1">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                Jalan Sungai Long, Bandar Sungai Long, 43000 Kajang, Selangor
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-2">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                +031234567890
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-3">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                deeptech@gmail.com
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- end info_section -->
+
+  <!-- footer section -->
+  <footer class="container-fluid footer_section">
+    <p>
+      &copy; 2024 All Rights Reserved. Design by DeepTech
+    </p>
+  </footer>
+  <!-- footer section -->
+
+  <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  <script>
+    window.onload = function () {
+        var message = "{{ result }}" || "";
+        showMessage(result);
+    };
+    function handleFileUpload() {
+        var input = document.getElementById('input_image');
+        var message = document.getElementById('upload-message');
+
+        if (input.files && input.files[0]) {
+            // Hide the file input
+            input.classList.add('hidden');
+            // Show upload message
+            message.innerText = 'File uploaded: ' + input.files[0].name;
+            // Show clear button
+            document.getElementById('clear-file-btn').style.display = 'inline-block';
+        }
+    }
+    // Event listener for file input change
+    document.getElementById('input_image').addEventListener('change', handleFileUpload);
+
+    // Event listener for clear button click
+    document.getElementById('clear-file-btn').addEventListener('click', function() {
+        var input = document.getElementById('input_image');
+        var message = document.getElementById('upload-message');
+        // Clear the file input
+        input.value = '';
+        // Show the file input and hide the clear button
+        input.classList.remove('hidden');
+        message.innerText = 'Drag your files here or click in this area.';
+        document.getElementById('clear-file-btn').style.display = 'none';
+      });
+
+    document.getElementById('upload-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var form = event.target;
+        var formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+    // Hide the upload form
+    document.getElementById('upload-form').classList.add('hidden');
+
+    // Display the prediction result
+    var predictionElement = document.getElementById('prediction');
+    predictionElement.classList.remove('hidden');
+
+    // Display the realness percentages and prediction class
+    document.getElementById('real-confidence').innerText = data.real_confidence;
+    document.getElementById('fake-confidence').innerText = data.fake_confidence;
+    
+    var predictionClassElement = document.getElementById('prediction-class');
+    predictionClassElement.innerText = data.prediction_class;
+
+    // Update progress bars
+    var realProgress = document.getElementById('real-progress');
+    realProgress.style.width = data.real_confidence + '%';
+    realProgress.style.backgroundColor = data.real_confidence >= 50 ? '#00FF00' : '#00FF00'; // Example colors for real and fake confidence
+
+    var fakeProgress = document.getElementById('fake-progress');
+    fakeProgress.style.width = data.fake_confidence + '%';
+    fakeProgress.style.backgroundColor = data.fake_confidence >= 50 ? '#DC143C' : '#DC143C'; // Example colors for real and fake confidence
+
+    // Display the result image
+    var resultElement = document.getElementById('result');
+    resultElement.classList.remove('hidden');
+    var resultImageElement = document.getElementById('result-image');
+    resultImageElement.src = 'data:image/png;base64,' + data.image;
+
+    // Change color of prediction class based on prediction
+    if (data.prediction_class === "fake") {
+        predictionClassElement.style.color = "#DC143C"; // Red color for fake
+    } else {
+        predictionClassElement.style.color = "#00FF00"; // Green color for real
+    }
+
+    // Add event listener to refresh button
+    var refreshButton = document.getElementById('refresh-button');
+    refreshButton.classList.remove('hidden');
+    refreshButton.addEventListener('click', function() {
+        location.reload();
+    });
+})
+        .catch(error => console.error('Error:', error));
+    });
+    
+</script>
+</body>
+
+</html>

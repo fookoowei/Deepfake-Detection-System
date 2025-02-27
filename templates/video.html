@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>DeepTech</title>
+
+    <!-- slider stylesheet -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- bootstrap core css -->
+    <link
+      href="{{ url_for('static', filename='css/bootstrap.css') }}"
+      rel="stylesheet"
+    />
+    <!-- fonts style -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Custom styles for this template -->
+    <link
+      href="{{ url_for('static', filename='css/style.css') }}"
+      rel="stylesheet"
+    />
+    <!-- responsive style -->
+    <link
+      href="{{ url_for('static', filename='css/responsive.css') }}"
+      rel="stylesheet"
+    />
+    <style>
+      #loading {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 1;
+        width: 120px;
+        height: 120px;
+        margin: -76px 0 0 -76px;
+        text-align: center;
+      }
+
+      #loading-text {
+        position: absolute;
+        left: 47%;
+        top: 35%;
+        z-index: 1;
+        width: 100%;
+        margin-left: -48%;
+        text-align: center;
+      }
+
+      .loader {
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #cb0ce1;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Add animation to "page content" */
+      .animate-bottom {
+        position: relative;
+        animation: animatebottom 1s;
+      }
+
+      @keyframes animatebottom {
+        from {
+          bottom: -100px;
+          opacity: 0;
+        }
+        to {
+          bottom: 0px;
+          opacity: 1;
+        }
+      }
+
+      #progress-bars {
+        margin-top: 20px;
+      }
+
+      .progress-label {
+        font-weight: bold;
+      }
+
+      #real-progress-text,
+      #fake-progress-text,
+      #overall-result {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      #real-progress-bar,
+      #fake-progress-bar {
+        height: 10px;
+        margin-top: 5px;
+      }
+
+      #overall-result {
+        font-size: 24px;
+        color: #ffffff;
+        margin-top: 20px;
+      }
+
+      #refresh-button {
+        background-color: #8a2be2; /* Green */
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px; /* Add top margin */
+        cursor: pointer;
+        margin-left: 450px;
+      }
+      #video-controls {
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .play-pause-button {
+        padding: 8px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #8a2be2;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+
+      .play-pause-button:hover {
+        background-color: #2980b9;
+      }
+
+      #speed-slider {
+        margin-left: 10px;
+        vertical-align: middle;
+      }
+
+      #speed-value {
+        margin-left: 5px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body class="sub_page">
+    <div class="hero_area">
+      <!-- header section strats -->
+      <header class="header_section">
+        <div class="container-fluid">
+          <nav class="navbar navbar-expand-lg custom_nav-container">
+            <a class="navbar-brand" href="index">
+              <span> DeepTech </span>
+            </a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <div
+                class="d-flex ml-auto flex-column flex-lg-row align-items-center"
+              >
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="index"
+                      >Home <span class="sr-only">(current)</span></a
+                    >
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="detector"> DeepFake Detectors </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="faq">FAQ</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="about"> About Us </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="contact"> Contact Us</a>
+                  </li>
+                  <li class="custom-nav-item">
+                    {% if user_logged_in %}
+                    <div class="custom-nav-item dropdown">
+                      <a
+                        class="custom-nav-link dropdown-toggle"
+                        href="#"
+                        id="customNavbarDropdown"
+                        role="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        {{ user_name }}
+                      </a>
+                      <div
+                        class="custom-dropdown-menu"
+                        aria-labelledby="customNavbarDropdown"
+                      >
+                        <a class="custom-dropdown-item" href="history"
+                          >Detection History</a
+                        >
+                        <a class="custom-dropdown-item" href="logout"
+                          >Sign Out</a
+                        >
+                      </div>
+                    </div>
+                    {% else %}
+                    <a class="custom-nav-link" href="login">
+                      <i class="custom-sign-in-icon" aria-hidden="true"></i>Sign
+                      In</a
+                    >
+                    {% endif %}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+      <!-- end header section -->
+    </div>
+
+    <!-- trainer section -->
+
+    <section class="deepfake_section layout_padding" id="upload-section">
+      <div class="container">
+        <div class="heading_video">
+          <h2>Upload Your DeepFake Video</h2>
+        </div>
+        <form
+          class="upload-form"
+          id="upload-form"
+          action="/detectVideo"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input
+            type="file"
+            id="input_video"
+            name="input_video"
+            accept="video/mp4"
+          />
+          <div id="file-info">
+            <p id="file-name-text">
+              Drag your files here or click in this area.
+            </p>
+            <button
+              id="clear-file-btn"
+              class="clear-button"
+              type="button"
+              style="display: none"
+            >
+              Clear
+            </button>
+          </div>
+          <button class="upload-button" type="submit">Upload</button>
+        </form>
+        <div id="loading-text" style="display: none; text-align: center">
+          <p>Loading<span id="loading-dots"></span></p>
+        </div>
+        <div id="loading" style="display: none; text-align: center">
+          <div class="loader"></div>
+        </div>
+        <video
+          id="output_video"
+          style="display: none"
+          class="animate-bottom"
+          autoplay
+          loop
+          muted
+        >
+          <source src="" type="video/mp4" />
+        </video>
+        <div id="video-controls" style="display: none">
+          <button id="play-pause-button" class="play-pause-button">Play</button>
+          <label for="speed-slider">Speed:</label>
+          <input
+            type="range"
+            id="speed-slider"
+            min="0.1"
+            max="2"
+            step="0.1"
+            value="1"
+          />
+          <span id="speed-value">1x</span>
+        </div>
+        <div id="result-info" style="display: none; text-align: center">
+          <div
+            id="video-progress-bars"
+            style="text-align: center; margin-top: 20px"
+          >
+            <div
+              style="display: flex; align-items: center; margin-bottom: 10px"
+            >
+              <div style="flex: 1">
+                <p>Real Confidence: <span id="real-progress-text"></span></p>
+                <div
+                  id="real-video-bar"
+                  class="video-progress-bar"
+                  style="background-color: #00ff00; height: 20px; width: 50%"
+                ></div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center">
+              <div style="flex: 1">
+                <p>Fake Confidence: <span id="fake-progress-text"></span></p>
+                <div
+                  id="fake-video-bar"
+                  class="video-progress-bar"
+                  style="background-color: #dc143c; height: 20px; width: 50%"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <p>Overall Result: <span id="overall-result"></span></p>
+          <button id="refresh-button" class="refresh-button">
+            Detect Deepfake again
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- end trainer section -->
+    <!-- info section -->
+    <section class="info_section layout_padding2">
+      <div class="container">
+        <div class="info_items">
+          <a href="">
+            <div class="item">
+              <div class="img-box box-1">
+                <img src="" alt="" />
+              </div>
+              <div class="detail-box">
+                <p>
+                  Jalan Sungai Long, Bandar Sungai Long, 43000 Kajang, Selangor
+                </p>
+              </div>
+            </div>
+          </a>
+          <a href="">
+            <div class="item">
+              <div class="img-box box-2">
+                <img src="" alt="" />
+              </div>
+              <div class="detail-box">
+                <p>+031234567890</p>
+              </div>
+            </div>
+          </a>
+          <a href="">
+            <div class="item">
+              <div class="img-box box-3">
+                <img src="" alt="" />
+              </div>
+              <div class="detail-box">
+                <p>deeptech@gmail.com</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- end info_section -->
+
+    <!-- footer section -->
+    <footer class="container-fluid footer_section">
+      <p>&copy; 2024 All Rights Reserved. Design by DeepTech</p>
+    </footer>
+    <!-- footer section -->
+
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script>
+      document
+        .getElementById("upload-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent default form submission
+
+          var form = event.target;
+          var formData = new FormData(form);
+
+          // Hide the form and show the loading animation
+          document.getElementById("upload-form").style.display = "none";
+          document.getElementById("loading-text").style.display = "block";
+          document.getElementById("loading").style.display = "block";
+
+          // Send the form data via AJAX
+          fetch(form.action, {
+            method: form.method,
+            body: formData,
+          })
+            .then((response) => response.json()) // Parse the response as JSON
+            .then((data) => {
+              // Hide the loading animation and text and show the video
+              document.getElementById("loading").style.display = "none";
+              document.getElementById("loading-text").style.display = "none";
+              document.getElementById("output_video").style.display = "block";
+              document.getElementById("result-info").style.display = "block";
+              document.getElementById("refresh-button").style.display = "block";
+              document.getElementById("video-controls").style.display = "block";
+
+              // Update the src attribute of the video element with the returned URL
+              var video = document.getElementById("output_video");
+              video.src = data.output_video_path;
+
+              // Display the overall result
+              document.getElementById("overall-result").textContent =
+                data.overall_result;
+
+              // Format and display the real and fake percentages
+              document.getElementById("real-video-bar").style.width =
+                data.percentage_real.toFixed(2) + "%";
+              document.getElementById("real-progress-text").textContent =
+                data.percentage_real.toFixed(2) + "%";
+              document.getElementById("fake-video-bar").style.width =
+                data.percentage_fake.toFixed(2) + "%";
+              document.getElementById("fake-progress-text").textContent =
+                data.percentage_fake.toFixed(2) + "%";
+
+              // Resize and center the output video
+              document.getElementById("output_video").style.width = "60%"; // Adjust the width as needed
+              document.getElementById("output_video").style.margin = "0 auto"; // Center the video horizontally
+
+              document.getElementById("upload-form").style.display = "none";
+            })
+            .catch((error) => console.error("Error:", error));
+        });
+      document
+        .getElementById("refresh-button")
+        .addEventListener("click", function () {
+          location.reload(); // Refresh the page
+        });
+      document.addEventListener("DOMContentLoaded", function () {
+        var video = document.getElementById("output_video");
+        var playPauseButton = document.getElementById("play-pause-button");
+        var speedSlider = document.getElementById("speed-slider");
+        var speedValue = document.getElementById("speed-value");
+
+        playPauseButton.addEventListener("click", function () {
+          if (video.paused) {
+            video.play();
+            playPauseButton.textContent = "Pause";
+          } else {
+            video.pause();
+            playPauseButton.textContent = "Play";
+          }
+        });
+
+        speedSlider.addEventListener("input", function () {
+          video.playbackRate = parseFloat(speedSlider.value);
+          speedValue.textContent = speedSlider.value + "x";
+        });
+
+        video.addEventListener("play", function () {
+          playPauseButton.textContent = "Pause";
+        });
+
+        video.addEventListener("pause", function () {
+          playPauseButton.textContent = "Play";
+        });
+
+        video.addEventListener("ended", function () {
+          playPauseButton.textContent = "Play";
+        });
+      });
+      // Add loading dots animation
+      var loadingDots = document.getElementById("loading-dots");
+      var dots = 0;
+      setInterval(function () {
+        dots++;
+        if (dots > 3) dots = 0;
+        loadingDots.innerHTML = ".".repeat(dots);
+      }, 500);
+
+      // Update file name text when file is selected
+      document
+        .getElementById("input_video")
+        .addEventListener("change", function (event) {
+          var fileName = event.target.files[0].name;
+          document.getElementById("file-name-text").textContent = fileName;
+          document.getElementById("clear-file-btn").style.display =
+            "inline-block"; // Show the clear button
+        });
+
+      // Clear selected file when clear button is clicked
+      document
+        .getElementById("clear-file-btn")
+        .addEventListener("click", function (event) {
+          var inputVideo = document.getElementById("input_video");
+          inputVideo.value = ""; // Clear the selected file
+          document.getElementById("file-name-text").textContent =
+            "Drag your files here or click in this area."; // Reset file name text
+          document.getElementById("clear-file-btn").style.display = "none"; // Hide the clear button
+        });
+    </script>
+  </body>
+</html>

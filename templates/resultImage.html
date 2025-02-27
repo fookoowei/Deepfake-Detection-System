@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>DeepTech</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- bootstrap core css -->
+  <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" />
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
+  <style>
+    #result {
+        margin-bottom: 20px; /* Add some bottom margin for spacing */
+        justify-content: space-between; /* Arrange items with space between them */
+        margin-left: 100px;
+    }
+    
+    .progress-bar {
+        width: 100%;
+        height: 20px; /* Adjust height as needed */
+        background-color: #ffffff; /* Background color of the progress bar */
+        border-radius: 5px; /* Rounded corners */
+    }
+    
+    #prediction-container {
+        border: 2px solid #8b23e0; /* Add border */
+        padding: 10px; /* Add padding for content */
+        display:flex;
+        text-align:center;
+        align-items:center;
+        width: 60%;
+        margin-left:160px;
+    }
+    
+    #prediction-class{
+      display:flex;
+      margin-left: 50px;
+      color: #ffffff; 
+      font-family: 'Raleway',sans-serif; 
+      font-size: 40px; 
+      font-weight: 600; 
+      line-height: 72px; 
+      text-align: center; 
+      text-transform: uppercase; 
+    }
+    
+    #prediction-result {
+        margin-bottom: 10px; /* Add bottom margin for spacing between prediction text and image */
+        margin-left: 50px;
+    }
+
+    #go-back-button {
+    background-color: #8A2BE2; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px; /* Add top margin */
+    cursor: pointer;
+    margin-left: 540px;
+}
+    </style>
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index">
+            <span>
+              DeepTech
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                <li class="nav-item">
+                  <a class="nav-link" href="index">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="detector"> DeepFake Detectors </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="faq">FAQ</a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" href="about"> About Us </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact"> Contact Us</a>
+                </li>
+                <li class="custom-nav-item">
+                  {% if user_logged_in %}
+                  <div class="custom-nav-item dropdown">
+                      <a class="custom-nav-link dropdown-toggle" href="#" id="customNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {{ user_name }}
+                      </a>
+                      <div class="custom-dropdown-menu" aria-labelledby="customNavbarDropdown">
+                          <a class="custom-dropdown-item" href="history">Detection History</a>
+                          <a class="custom-dropdown-item" href="logout">Sign Out</a>
+                      </div>
+                  </div>
+                  {% else %}
+                  <a class="custom-nav-link" href="login">
+                      <i class="custom-sign-in-icon" aria-hidden="true"></i>Sign In</a>
+                  {% endif %}
+              </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+    <section class="deepfake_section layout_padding">
+      <div class="container">
+        <div class="heading_video" style="border-bottom: none;">
+          <h2>
+              DeepFake Result:
+          </h2>
+      </div>
+          <div id="result">
+              <div id="prediction-container">
+                  <img id="result-image" src="{{ url_for('static', filename=image_path) }}" alt="Result Image">
+                  <div id="prediction" class="hidden">
+                      <h2 id="heading_prediction">Prediction:</h2>
+                      <div id="prediction-result">
+                          <b>Real Confidence:</b> <span id="real-confidence">{{ real_confidence }}</span>%<br>
+                          <div class="progress-bar">
+                              <div class="progress" id="real-progress" ></div>
+                          </div>
+                          <b>Fake Confidence:</b> <span id="fake-confidence">{{ fake_confidence }}</span>%<br>
+                          <div class="progress-bar">
+                              <div class="progress" id="fake-progress" ></div>
+                          </div>
+                          <b>Prediction Result:</b> <span id="prediction-class">{{ prediction_class }}</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <button id="go-back-button">Go Back</button>
+      </div>
+
+  </section>
+    
+
+  <!-- info section -->
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="info_items">
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-1">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                Jalan Sungai Long, Bandar Sungai Long, 43000 Kajang, Selangor
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-2">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                +031234567890
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-3">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                deeptech@gmail.com
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- end info_section -->
+
+  <!-- footer section -->
+  <footer class="container-fluid footer_section">
+    <p>
+      &copy; 2024 All Rights Reserved. Design by DeepTech
+    </p>
+  </footer>
+  <!-- footer section -->
+
+  <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  <script>
+    // Parse real and fake confidence values from the HTML
+    var realConfidence = parseFloat(document.getElementById('real-confidence').innerText);
+    var fakeConfidence = parseFloat(document.getElementById('fake-confidence').innerText);
+
+    // Update the progress bars
+    var realProgress = document.getElementById('real-progress');
+    realProgress.style.width = realConfidence + '%';
+    realProgress.style.backgroundColor = realConfidence >= 50 ? '#00FF00' : '#FF0000'; // Green for >= 50%, red for < 50%
+
+    var fakeProgress = document.getElementById('fake-progress');
+    fakeProgress.style.width = fakeConfidence + '%';
+    fakeProgress.style.backgroundColor = fakeConfidence >= 50 ? '#FF0000' : '#00FF00'; // Red for >= 50%, green for < 50%
+
+    document.getElementById("go-back-button").addEventListener("click", function() {
+            window.history.back();
+        });
+</script>
+</body>
+</html>

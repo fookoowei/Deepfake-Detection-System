@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>DeepTech</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- bootstrap core css -->
+  <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" />
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index">
+            <span>
+              DeepTech
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                <li class="nav-item">
+                  <a class="nav-link" href="index">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="detector"> DeepFake Detectors </a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="faq">FAQ</a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" href="about"> About Us </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact"> Contact Us</a>
+                </li>
+                <li class="custom-nav-item">
+                  {% if user_logged_in %}
+                  <div class="custom-nav-item dropdown">
+                      <a class="custom-nav-link dropdown-toggle" href="#" id="customNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {{ user_name }}
+                      </a>
+                      <div class="custom-dropdown-menu" aria-labelledby="customNavbarDropdown">
+                          <a class="custom-dropdown-item" href="history">Detection History</a>
+                          <a class="custom-dropdown-item" href="logout">Sign Out</a>
+                      </div>
+                  </div>
+                  {% else %}
+                  <a class="custom-nav-link" href="login">
+                      <i class="custom-sign-in-icon" aria-hidden="true"></i>Sign In</a>
+                  {% endif %}
+              </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+    <section id="fac-section" class="faq-section">
+        <div class="container">
+            <div class="row">
+                <!-- ***** FAQ Start ***** -->
+                <div class="col-md-6 offset-md-3">
+                    <div class="faq-title text-center pb-3">
+                        <h2>FAQ</h2>
+                    </div>
+                </div>
+                <div class="col-md-6 offset-md-3">
+                    <div class="faq" id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="faqHeading-1">
+                                <div class="mb-0">
+                                    <h5 class="faq-title" data-toggle="collapse" data-target="#faqCollapse-1"
+                                        data-aria-expanded="true" data-aria-controls="faqCollapse-1">
+                                        <span class="badge">1</span>What is a deepfake, and why should I be concerned about
+                                        it?
+                                    </h5>
+                                </div>
+                            </div>
+                            <div id="faqCollapse-1" class="collapse" aria-labelledby="faqHeading-1"
+                                data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>Deepfakes are AI-generated synthetic media that manipulate existing images or videos
+                                        to depict something that didn't actually occur. They pose serious threats to privacy,
+                                        security, and trust in digital content.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="faqHeading-2">
+                                <div class="mb-0">
+                                    <h5 class="faq-title" data-toggle="collapse" data-target="#faqCollapse-2"
+                                        data-aria-expanded="false" data-aria-controls="faqCollapse-2">
+                                        <span class="badge">2</span>How do deepfake detection tools work?
+                                    </h5>
+                                </div>
+                            </div>
+                            <div id="faqCollapse-2" class="collapse" aria-labelledby="faqHeading-2"
+                                data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>Deepfake detection tools use various techniques such as facial recognition
+                                        algorithms, image forensics, and machine learning models to analyze media content for
+                                        signs of manipulation or synthetic elements.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="faqHeading-3">
+                                <div class="mb-0">
+                                    <h5 class="faq-title" data-toggle="collapse" data-target="#faqCollapse-3"
+                                        data-aria-expanded="false" data-aria-controls="faqCollapse-3">
+                                        <span class="badge">3</span>How accurate are deepfake detection tools?
+                                    </h5>
+                                </div>
+                            </div>
+                            <div id="faqCollapse-3" class="collapse" aria-labelledby="faqHeading-3"
+                                data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>The accuracy of deepfake detection tools can vary depending on factors like the
+                                        sophistication of the deepfake, the quality of the detection algorithm, and the type
+                                        of media being analyzed. While they are continually improving, no detection method
+                                        is foolproof.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="faqHeading-4">
+                                <div class="mb-0">
+                                    <h5 class="faq-title" data-toggle="collapse" data-target="#faqCollapse-4"
+                                        data-aria-expanded="false" data-aria-controls="faqCollapse-4">
+                                        <span class="badge">4</span>Can deepfake detection tools be used to protect my
+                                        privacy online?
+                                    </h5>
+                                </div>
+                            </div>
+                            <div id="faqCollapse-4" class="collapse" aria-labelledby="faqHeading-4"
+                                data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>Yes, deepfake detection tools can help identify and mitigate the spread of deepfake
+                                        content that may compromise your privacy. However, it's essential to be cautious
+                                        about sharing sensitive information online and to stay informed about emerging
+                                        threats.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="faqHeading-5">
+                                <div class="mb-0">
+                                    <h5 class="faq-title" data-toggle="collapse" data-target="#faqCollapse-5"
+                                        data-aria-expanded="false" data-aria-controls="faqCollapse-5">
+                                        <span class="badge">5</span>What should I do if I suspect a video or image has been
+                                        manipulated with deepfake technology?
+                                    </h5>
+                                </div>
+                            </div>
+                            <div id="faqCollapse-5" class="collapse" aria-labelledby="faqHeading-5"
+                                data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>If you suspect a video or image is a deepfake, refrain from sharing it further and
+                                        consider reporting it to the relevant platform or authorities. Additionally,
+                                        consider using deepfake detection tools to verify the authenticity of media
+                                        content.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="faqHeading-6">
+                                <div class="mb-0">
+                                    <h5 class="faq-title" data-toggle="collapse" data-target="#faqCollapse-6"
+                                        data-aria-expanded="false" data-aria-controls="faqCollapse-6">
+                                        <span class="badge">6</span>Are there any legal implications for using deepfake
+                                        detection tools?
+                                    </h5>
+                                </div>
+                            </div>
+                            <div id="faqCollapse-6" class="collapse" aria-labelledby="faqHeading-6"
+                                data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>The use of deepfake detection tools for personal or research purposes is generally
+                                        legal. However, deploying such tools for malicious activities or without the
+                                        consent of involved parties may violate privacy laws and regulations.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="faqHeading-7">
+                                <div class="mb-0">
+                                    <h5 class="faq-title" data-toggle="collapse" data-target="#faqCollapse-7"
+                                        data-aria-expanded="false" data-aria-controls="faqCollapse-7">
+                                        <span class="badge">7</span>How do you ensure the privacy and security of videos and
+                                        images uploaded for analysis?
+                                    </h5>
+                                </div>
+                            </div>
+                            <div id="faqCollapse-7" class="collapse" aria-labelledby="faqHeading-7"
+                                data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>We take privacy and security seriously. We ensure that the videos and images uploaded are securely stored in our
+                                        database. Our database is hosted on a secure server and is regularly monitored and
+                                        updated to prevent unauthorized access.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+  <!-- info section -->
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="info_items">
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-1">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                Jalan Sungai Long, Bandar Sungai Long, 43000 Kajang, Selangor
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-2">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                +031234567890
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-3">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                deeptech@gmail.com
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- end info_section -->
+
+  <!-- footer section -->
+  <footer class="container-fluid footer_section">
+    <p>
+      &copy; 2024 All Rights Reserved. Design by DeepTech
+    </p>
+  </footer>
+  <!-- footer section -->
+
+  <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+</body>
+</html>

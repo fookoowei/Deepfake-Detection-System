@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>DeepTech</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- bootstrap core css -->
+  <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" />
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
+  <style>
+  .popup-container {
+  position: fixed;
+  top: 12%; /* Adjust the top position as needed */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  text-align: center;
+}
+
+.popup {
+  background-color: #c300ff;
+  color: white;
+  padding: 20px 80px; /* Increase padding to make the box bigger */
+  border-radius: 10px; /* Increase border-radius for rounded corners */
+  display: none;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+/* Add animation */
+@keyframes slideIn {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+  </style>
+</head>
+
+<body>
+  <div class="popup-container">
+    <div id="popup" class="popup"></div>
+  </div>
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="index">
+            <span>DeepTech</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+    
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="detector">DeepFake Detectors</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="faq">FAQ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="about">About Us</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact">Contact Us</a>
+                </li>
+                <li class="custom-nav-item">
+                  {% if user_logged_in %}
+                  <div class="custom-nav-item dropdown">
+                      <a class="custom-nav-link dropdown-toggle" href="#" id="customNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {{ user_name }}
+                      </a>
+                      <div class="custom-dropdown-menu" aria-labelledby="customNavbarDropdown">
+                          <a class="custom-dropdown-item" href="history">Detection History</a>
+                          <a class="custom-dropdown-item" href="logout">Sign Out</a>
+                      </div>
+                  </div>
+                  {% else %}
+                  <a class="custom-nav-link" href="login">
+                      <i class="custom-sign-in-icon" aria-hidden="true"></i>Sign In</a>
+                  {% endif %}
+              </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class=" slider_section position-relative">
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="container">
+              <div class="col-lg-10 col-md-11 mx-auto">
+                <div class="detail-box">
+                  <div>
+                    <h3>
+                      DeepFake Detection For
+                    </h3>
+                    <h2>
+                      Video & Image
+                    </h2>
+                    <h1>
+                      DeepTech
+                    </h1>
+                    <p>
+                      Welcome to our Deepfake Detection platform, where cutting-edge AI and machine learning converge to safeguard the authenticity of your visual content. Our multi-modal analysis detects and mitigates deepfake threats in videos and images, offering accurate detection, forensic traceability, and an intuitive user interface.</p>
+                    </p>
+                    <div class="">
+                      <a href="detector">
+                        Get Started
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="container">
+              <div class="col-lg-10 col-md-11 mx-auto">
+                <div class="detail-box">
+                  <div>
+                    <h3>
+                      Tutorial
+                    </h3>
+                    <h2>
+                      For
+                    </h2>
+                    <h1>
+                      DeepTech
+                    </h1>
+                    <p>
+                      Discover the power of Deeptech through our quick and user-friendly tutorial. In just seconds, learn how to navigate our platform and unlock the capability to detect deepfakes in both videos and images. Empower yourself with the tools to secure your visual content swiftly and efficiently. Dive into the world of Deeptech tutorials – where detecting deepfakes is fast, simple, and effective.
+                    </p>
+                    <div class="">
+                      <a href="tutorial">
+                        Go Tutorial
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="container">
+              <div class="col-lg-10 col-md-11 mx-auto">
+                <div class="detail-box">
+                  <div>
+                    <h3>
+                      Join Us
+                    </h3>
+                    <h2>
+                      At
+                    </h2>
+                    <h1>
+                      DeepTech
+                    </h1>
+                    <p>
+                      Join the Deeptech community effortlessly! Sign up today to access our powerful Deepfake Detection platform. Gain exclusive benefits, customize your settings, and experience the swift and robust protection against visual manipulations. Ready to defend reality and ensure trust? Sign up with Deeptech now and be a part of the future of secure digital content.
+                    </p>
+                    <div class="">
+                      <a href="login">
+                        Sign In
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="container">
+              <div class="col-lg-10 col-md-11 mx-auto">
+                <div class="detail-box">
+                  <div>
+                    <h3>
+                      About
+                    </h3>
+                    <h1>
+                      DeepTech
+                    </h1>
+                    <p>
+                      At Deeptech, we leverage state-of-the-art artificial intelligence and machine learning technologies to provide real-time protection against the growing threat of deepfakes. Our platform excels in multi-modal analysis, ensuring a comprehensive approach to detecting manipulations in visual content.                    <div class="">
+                      <a href="about">
+                        About Us
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="carousel-item">
+          <div class="container">
+            <div class="col-lg-10 col-md-11 mx-auto">
+              <div class="detail-box">
+                <div>
+                  <h2>
+                    Give Us
+                  </h2>
+                  <h1>
+                    Your Feedback
+                  </h1>
+                  <p>
+                    Contact Deeptech for unparalleled Deepfake Detection solutions. Our dedicated team is ready to assist you in securing your visual content with cutting-edge technology. Reach out to us for inquiries, support, or custom solutions tailored to your needs. Defend reality and ensure trust – contact Deeptech today.
+                  </p>
+                  <div class="">
+                    <a href="contact">
+                      Contact Us
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+        </ol>
+      </div>
+    </section>
+    <!-- end slider section -->
+  </div>
+
+  <!-- info section -->
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="info_items">
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-1">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                Jalan Sungai Long, Bandar Sungai Long, 43000 Kajang, Selangor
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-2">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                +031234567890
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-3">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                deeptech@gmail.com
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- end info_section -->
+
+  <!-- footer section -->
+  <footer class="container-fluid footer_section">
+    <p>
+      &copy; 2024 All Rights Reserved. Design by DeepTech
+    </p>
+  </footer>
+  <!-- footer section -->
+
+  <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  <script>
+    // Function to show a pop-up message and hide it after 3 seconds
+    function showPopup(message) {
+      var popup = document.getElementById("popup");
+      popup.innerText = message;
+      popup.style.display = "block";
+      setTimeout(function() {
+        popup.style.display = "none";
+      }, 3000); // 3 seconds
+    }
+  
+    // Call showPopup function when the page is loaded
+    window.onload = function() {
+      var message = "{{ message }}" || "";
+      if (message) {
+        showPopup(message);
+      }
+    };
+  </script>
+</body>
+</html>

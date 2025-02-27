@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>DeepTech</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- bootstrap core css -->
+  <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" />
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
+
+  <style>
+    .tab-container {
+    text-align: center;
+    margin-bottom: 20px; /* Adjust margin as needed */
+}
+    .tab button {
+    background-color: #f2f2f2;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+/* Change background color of tab buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Set active tab button */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Hide tab content by default */
+.tabcontent {
+    display: none;
+}
+
+/* Style the table */
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #da00c8;
+}
+
+th {
+    background-color: #b806e4;
+}
+
+/* Style remove buttons */
+.remove-button {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.remove-button:hover {
+    background-color: #cc0000;
+}
+
+table video {
+    max-width: 200px; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+table img {
+    max-width: 200px; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+</style>
+
+</head>
+<body>
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index">
+            <span>
+              DeepTech
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                <li class="nav-item">
+                  <a class="nav-link" href="index">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="detector"> DeepFake Detectors </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="faq">FAQ</a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" href="about"> About Us </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact"> Contact Us</a>
+                </li>
+                <li class="custom-nav-item">
+                  {% if user_logged_in %}
+                  <div class="custom-nav-item dropdown">
+                      <a class="custom-nav-link dropdown-toggle" href="#" id="customNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {{ user_name }}
+                      </a>
+                      <div class="custom-dropdown-menu" aria-labelledby="customNavbarDropdown">
+                          <a class="custom-dropdown-item" href="history">Detection History</a>
+                          <a class="custom-dropdown-item" href="logout">Sign Out</a>
+                      </div>
+                  </div>
+                  {% else %}
+                  <a class="custom-nav-link" href="login">
+                      <i class="custom-sign-in-icon" aria-hidden="true"></i>Sign In</a>
+                  {% endif %}
+              </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+    <section class="deepfake_section layout_padding">
+        <div class="container">
+            <div class="heading_video" style="border-bottom: none;">
+                <h2>
+                    DeepFake Detection History
+                </h2>
+            </div>
+    
+            <!-- Tab buttons -->
+            <div class="tab-container">
+              <div class="tab">
+                  <button class="tablinks" onclick="openTab(event, 'image-history')">Image Detection History</button>
+                  <button class="tablinks" onclick="openTab(event, 'video-history')">Video Detection History</button>
+              </div>
+          </div>
+          
+          <!-- Image Detection History Table -->
+          <!-- Image Detection History Table -->
+          <div id="image-history" class="tabcontent">
+            <h3>Image Detection History</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Time</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for detection in image_detection_history %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('resultImage', detection_id=detection.id) }}">
+                                    <img src="{{ url_for('static', filename=detection.image_path) }}" alt="Image Result" width="200" height="auto">
+                                </a>
+                            </td>
+                            <td>{{ detection.time }}</td>
+                            <td><button class="remove-button" onclick="removeDetection('{{ detection.id }}')">Remove</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+          
+          <!-- Video Detection History Table -->
+          <div id="video-history" class="tabcontent" style="display: none;">
+            <h3>Video Detection History</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Video</th>
+                            <th>Time</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for video_result in video_detection_history %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('resultVideo', detection_id=video_result.id) }}">
+                                    <video autoplay loop muted width="200" height="auto">
+                                        <source src="{{ video_result.video_path }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </a>
+                            </td>
+                            <td>{{ video_result.time }}</td>
+                            <td><button class="remove-button" onclick="removeDetectionVideo('{{ video_result.id }}')">Remove</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </section>
+    
+
+  <!-- info section -->
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="info_items">
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-1">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                Jalan Sungai Long, Bandar Sungai Long, 43000 Kajang, Selangor
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-2">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                +031234567890
+              </p>
+            </div>
+          </div>
+        </a>
+        <a href="">
+          <div class="item ">
+            <div class="img-box box-3">
+              <img src="" alt="">
+            </div>
+            <div class="detail-box">
+              <p>
+                deeptech@gmail.com
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- end info_section -->
+
+  <!-- footer section -->
+  <footer class="container-fluid footer_section">
+    <p>
+      &copy; 2024 All Rights Reserved. Design by DeepTech
+    </p>
+  </footer>
+  <!-- footer section -->
+
+  <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  <script>
+    // Function to switch between tabs
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Default to showing the first tab
+    document.getElementById("image-history").style.display = "block";
+
+    // Function to remove detection
+    function removeDetection(detectionId) {
+    // Send an AJAX request to remove the detection with the given ID
+    fetch(`/removeDetection/${detectionId}`, {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        // If removal is successful, hide the row from the table
+        if (data.message === "Detection removed successfully") {
+          location.reload();
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function removeDetectionVideo(detectionId) {
+    // Send an AJAX request to remove the detection video with the given ID
+    fetch(`/removeDetectionVideo/${detectionId}`, {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Log the data received from the server
+        console.log('Server response:', data);
+        // If removal is successful, refresh the page
+        if (data.message === "Detection removed successfully") {
+            location.reload(); // Reload the page
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
+</body>
+</html>

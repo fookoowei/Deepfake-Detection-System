@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>DeepTech</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- bootstrap core css -->
+  <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" />
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" />
+</head>
+
+<body class="sub_page">
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index">
+            <span>
+              DeepTech
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
+  <section class="deepfake_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          Sign Up To DeepTech
+        </h2>
+      </div>
+      <form class="login-signup-form" action="/signup" method="post" onsubmit="return validateForm()">
+        <div class="form-group">
+          <label for="Name">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            placeholder="e.g. Keith"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="e.g. example123@gmail.com"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="e.g. abcXYZ123@"
+          />
+        </div>
+        <div class="form-group">
+          <label for="confirm">Confirm Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="confirm"
+            name="confirm"
+            placeholder="e.g. abcXYZ123@"
+          />
+        </div>
+        <input type="submit" class="btn btn-primary" style="margin-left:100px;" />
+      </form>
+    </div>
+  </section>
+
+  <!-- footer section -->
+  <footer class="container-fluid footer_section">
+    <p>
+      &copy; 2024 All Rights Reserved. Design by DeepTech
+    </p>
+  </footer>
+  <!-- footer section -->
+
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script>
+    // JavaScript function to validate the signup form
+    function validateForm() {
+    var password = document.getElementById("password").value;
+    var confirm = document.getElementById("confirm").value;
+    if (password != confirm) {
+      document.getElementById("passwordError").innerHTML = "Passwords do not match";
+      return false;
+    } else {
+      document.getElementById("passwordError").innerHTML = "";
+      return true;
+    }
+  }
+    function validateForm() {
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      var confirm = document.getElementById('confirm').value;
+
+      // Check if name, email, password, and confirm password fields are not empty
+      if (name.trim() == '' || email.trim() == '' || password.trim() == '' || confirm.trim() == '') {
+        alert('Please fill out all fields');
+        return false;
+      }
+
+      // Check if email is valid
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert('Invalid email address');
+        return false;
+      }
+
+      // Check if password and confirm password match
+      if (password !== confirm) {
+        alert('Passwords do not match');
+        return false;
+      }
+
+      // If all validations pass, return true
+      return true;
+    }
+    
+  </script>
+</body>
+
+</html>
